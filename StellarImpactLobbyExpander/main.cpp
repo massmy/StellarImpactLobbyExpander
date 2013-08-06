@@ -6,10 +6,9 @@
 #include <sstream>
  
 void WriteToMemory(HANDLE hProcHandle);
-DWORD GetMemoryAddress(HANDLE hProcHandle);
 void ValueToByte(int val);
 void CharToByte(char* chars, byte* bytes, unsigned int count);
-
+DWORD FindDmaAddress(int PointerLevel, HANDLE hProcHandle, DWORD Offsets[], DWORD BaseAddress);
 std::string GameName = "Stellar Impact";
 DWORD LobbyBaseAddress = {0x00BBC7CC}; 
 unsigned char bytes[4];
@@ -90,7 +89,7 @@ int main(void)
 }
 
 
-DWORD FindDmaAddy(int PointerLevel, HANDLE hProcHandle, DWORD Offsets[], DWORD BaseAddress)
+DWORD FindDmaAddress(int PointerLevel, HANDLE hProcHandle, DWORD Offsets[], DWORD BaseAddress)
 {
 	DWORD pointer = BaseAddress;  
 
@@ -113,7 +112,7 @@ DWORD FindDmaAddy(int PointerLevel, HANDLE hProcHandle, DWORD Offsets[], DWORD B
 
 void WriteToMemory(HANDLE hProcHandle)
 {
-	DWORD LobbyAddressToWrite = FindDmaAddy(5, hProcHandle, LobbyOffsets, LobbyBaseAddress);
+	DWORD LobbyAddressToWrite = FindDmaAddress(5, hProcHandle, LobbyOffsets, LobbyBaseAddress);
 	BYTE val[4]; 
 	CharToByte((char*)bytes, (BYTE*)val,4);
 	WriteProcessMemory( hProcHandle, (BYTE*)LobbyAddressToWrite, &val, sizeof(val), NULL);
