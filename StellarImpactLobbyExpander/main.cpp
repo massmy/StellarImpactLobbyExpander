@@ -14,7 +14,7 @@ DWORD LobbyBaseAddress = {0x00BBC7CC};
 unsigned char bytes[4];
 DWORD LobbyOffsets[] = { 0x0, 0x8, 0x14, 0x2C, 0x70 };
 LPCSTR LGameWindow = "Stellar Impact"; 
-std::string WelcommeText = "Choose your lobby size";
+std::string WelcommeText = "Type in your lobby size: ";
 std::string GameStatus;
 bool IsGameAvail;
 
@@ -63,7 +63,7 @@ int main(void)
 			std::cout <<GameStatus<< std::endl;
 			if(IsGameAvail)
 			{
-				std::cout <<WelcommeText<< std::endl;
+				std::cout <<WelcommeText;
 				OnePressTMR = clock();
 				std::string  text;
 				std::cin >> text;
