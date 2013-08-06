@@ -13,4 +13,4 @@ Usage
 Installation
 ------------
 
-[Download]: https://github.com/Maxerio/StellarImpactLobbyExpander/blob/master/Build/StellarImpactLobbyExpander.exe?raw=true
+[Download]: (/blob/master/Build/StellarImpactLobbyExpander.exe?raw=true)
