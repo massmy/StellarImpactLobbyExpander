@@ -1,7 +1,7 @@
 Stellar Impact LobbyExpander
 ============================
 
-Stellar Impact LobbyExpander is a programm which allows to expand a Stellar Impact lobby.
+Stellar Impact LobbyExpander is a program which allows to expand a Stellar Impact lobby.
 
 Usage
 -----
