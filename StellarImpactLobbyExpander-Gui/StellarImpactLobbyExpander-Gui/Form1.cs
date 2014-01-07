@@ -32,7 +32,7 @@ namespace StellarImpactLobbyExpander_Gui
             if (int.TryParse(this.textBox1.Text, out result))
             {
                 stellarImpactHandler.InjectLobby(result);
-                this.label2.Text = "Successful injected.";
+                this.label2.Text = "Successfully injected.";
             }
             else 
             {
