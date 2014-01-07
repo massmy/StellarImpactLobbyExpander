@@ -13,4 +13,4 @@ Usage
 Installation
 ------------
 
-[Download](/Build/StellarImpactLobbyExpander.exe?raw=true)
+[Download](/Build/StellarImpactLobbyExpander-Gui.exe?raw=true)
