@@ -1,29 +1,29 @@
-#include <iostream>
-#include <Windows.h>
-#include <string>
-#include <ctime>
-#include <limits>
-#include <sstream>
- 
-void WriteToMemory(HANDLE hProcHandle);
-void ValueToByte(int val);
-void CharToByte(char* chars, byte* bytes, unsigned int count);
-DWORD FindDmaAddress(int PointerLevel, HANDLE hProcHandle, DWORD Offsets[], DWORD BaseAddress);
+#include "Loader.h"
+
 std::string GameName = "Stellar Impact";
-DWORD LobbyBaseAddress = {0x00BBC7CC}; 
-unsigned char bytes[4];
+
+DWORD LobbyBaseAddress = {0x00BBC7CC}; //Baseaddress 
+
 DWORD LobbyOffsets[] = { 0x0, 0x8, 0x14, 0x2C, 0x70 };
+
+unsigned char bytes[4];
+
 LPCSTR LGameWindow = "Stellar Impact"; 
+
 std::string WelcommeText = "Type in your lobby size: ";
+
 std::string GameStatus;
+
 bool IsGameAvail;
 
-int main(void)
+Loader::Loader(void)
 {
+}
+
+void Loader::Load(void){
 	SetConsoleTitle("Stellar Impact Lobby Expander");
 	HWND hGameWindow = NULL;
 	int GameAvailTMR = clock();
-	int OnePressTMR = clock();
 	DWORD dwProcId = NULL;
 	HANDLE hProcHandle = NULL;
 	while(!GetAsyncKeyState(VK_ESCAPE))
@@ -64,7 +64,6 @@ int main(void)
 			if(IsGameAvail)
 			{
 				std::cout <<WelcommeText;
-				OnePressTMR = clock();
 				std::string  text;
 				std::cin >> text;
 				int value = atoi(text.c_str());
@@ -85,11 +84,14 @@ int main(void)
 	catch(EXCEPINFO x)
 	{
 	}
-	return 0;
+}
+
+Loader::~Loader(void)
+{
 }
 
 
-DWORD FindDmaAddress(int PointerLevel, HANDLE hProcHandle, DWORD Offsets[], DWORD BaseAddress)
+DWORD Loader::FindDmaAddress(int PointerLevel, HANDLE hProcHandle, DWORD Offsets[], DWORD BaseAddress)
 {
 	DWORD pointer = BaseAddress;  
 
@@ -98,19 +100,19 @@ DWORD FindDmaAddress(int PointerLevel, HANDLE hProcHandle, DWORD Offsets[], DWOR
 	DWORD pointerAddr;
 	for(int i = 0; i < PointerLevel; i ++)
 	{
-			if(i == 0)
-			{
-				ReadProcessMemory(hProcHandle, (LPCVOID)pointer, &pTemp, 4, NULL);
-			}
+		if(i == 0)
+		{
+			ReadProcessMemory(hProcHandle, (LPCVOID)pointer, &pTemp, 4, NULL);
+		}
 
-			pointerAddr = pTemp + Offsets[i];   
-			ReadProcessMemory(hProcHandle, (LPCVOID)pointerAddr, &pTemp, 4, NULL);
+		pointerAddr = pTemp + Offsets[i];   
+		ReadProcessMemory(hProcHandle, (LPCVOID)pointerAddr, &pTemp, 4, NULL);
 	}
 	return pointerAddr;
 }
 
 
-void WriteToMemory(HANDLE hProcHandle)
+void Loader::WriteToMemory(HANDLE hProcHandle)
 {
 	DWORD LobbyAddressToWrite = FindDmaAddress(5, hProcHandle, LobbyOffsets, LobbyBaseAddress);
 	BYTE val[4]; 
@@ -118,7 +120,7 @@ void WriteToMemory(HANDLE hProcHandle)
 	WriteProcessMemory( hProcHandle, (BYTE*)LobbyAddressToWrite, &val, sizeof(val), NULL);
 }
 
-void ValueToByte(int val)
+void Loader::ValueToByte(int val)
 {
 	bytes[3] = (val >> 24) & 0xFF;
 	bytes[2] = (val >> 16) & 0xFF;
@@ -126,7 +128,7 @@ void ValueToByte(int val)
 	bytes[0] = val & 0xFF;
 }
 
-void CharToByte(char* chars, byte* bytes, unsigned int count)
+void Loader::CharToByte(char* chars, byte* bytes, unsigned int count)
 {
     for(unsigned int i = 0; i < count; i++)
     	bytes[i] = (byte)chars[i];
